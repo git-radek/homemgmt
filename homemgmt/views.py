@@ -46,6 +46,12 @@ def home(request):
       user = authenticate(request, username=username, password=password)
       if user is not None:
          login(request, user)
-         return render(request, 'home.html')
+         temperature,pressure,humidity = readBME280All()
+         context = {
+            'temperature': round(temperature,2),
+            'pressure': round(pressure,2),
+            'humidity': round(humidity,2),
+                   }
+         return render(request, 'home.html', context)
       else:
          return render(request, 'login.html')

@@ -1,16 +1,25 @@
-<html><head>
-<title>HomeMgmt v0.1</title>
+<!DOCTYPE html>
+<head>
+<title>Homemgmt v0.1</title>
+<script>
+window.addEventListener("load",function() {
+    setTimeout(function(){
+        // This hides the address bar:
+        window.scrollTo(0, 1);
+    }, 0);
+});
+</script>
 <script src='/static/jquery.js'></script>
-</head><body>
+</head>
+<body style='overflow: hidden'>
 {% csrf_token %}
-<button id='main_gate' style='width: 100vw; height: 50vh; font-size: 8vw;'>Trigger: Main Gate</button><br><button id='garage_gate' style='width: 100vw; height: 50vh;  font-size: 8vw;'>Trigger: Garage Gate</button>
+<button id='main_gate' style='width: 100vw; height: 30vh; font-size: 8vw;'>Trigger: Main Gate</button><br><button id='garage_gate' style='width: 100vw; height: 30vh;  font-size: 8vw;'>Trigger: Garage Gate</button>
 <div>
 <h1>temperature: {{ temperature }}</h1>
 <h1>humidity: {{ humidity }}</h1>
 <h1>pressure: {{ pressure }}</h1>
 </div>
 <div id='status'></div>
-
 <script>
 $("#main_gate").click(function() {
 	var CSRFtoken = $('input[name=csrfmiddlewaretoken]').val();

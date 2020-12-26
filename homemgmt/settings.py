@@ -24,7 +24,6 @@ SECRET_KEY = 'u)@^2)a1zsyr)^z9pee85vj$!klkgt)cl&^0&n9u2lzo)xhtb@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 ALLOWED_HOSTS = ["192.168.1.243","pithole.asuscomm.com"]
 
 
