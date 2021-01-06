@@ -24,5 +24,7 @@ urlpatterns = [
             url('admin/', admin.site.urls),
             url('trigger_main_gate', views.trigger_main_gate, name='trigger_main_gate'),
             url('trigger_garage_gate', views.trigger_garage_gate, name='trigger_garage_gate'),
+            url('turn_on_terrace_lights', views.turn_on_terrace_lights, name='turn_on_terrace_lights'),
+            url('turn_off_terrace_lights', views.turn_off_terrace_lights, name='turn_off_terrace_lights'),
             url('', views.home, name='home'),
             ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

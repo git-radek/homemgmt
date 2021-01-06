@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Homemgmt v0.1</title>
-<script>
-window.addEventListener("load",function() {
-    setTimeout(function(){
-        // This hides the address bar:
-        window.scrollTo(0, 1);
-    }, 0);
-});
-</script>
 <script src='/static/jquery.js'></script>
+<link href='/static/style.css' rel='stylesheet' type='text/css'>
 </head>
 <body style='overflow: hidden'>
 {% csrf_token %}
-<button id='main_gate' style='width: 100vw; height: 30vh; font-size: 8vw;'>Trigger: Main Gate</button><br><button id='garage_gate' style='width: 100vw; height: 30vh;  font-size: 8vw;'>Trigger: Garage Gate</button>
+<button id='main_gate' style='width: 100vw; height: 20vh; font-size: 8vw;'>Trigger: Main Gate</button><br>
+<button id='garage_gate' style='width: 100vw; height: 20vh;  font-size: 8vw;'>Trigger: Garage Gate</button>
+<div style='width: 100vw; height: 20vh; font-size: 8vw; border: 1px solid silver; background-color: #EEEEEE; display: flex; align-items: center; justify-content: center;'>
+<p style='display: inline; font-size: 8vw; margin-right: 3vw'>Terrace lights:</p>
+<label class="switch" style="font-size: 8vw;">
+  <input id='toggle' type="checkbox">
+  <span class="slider round"></span>
+</label>
+</div>
 <div>
 <h1>temperature: {{ temperature }}</h1>
 <h1>humidity: {{ humidity }}</h1>
@@ -21,17 +23,38 @@ window.addEventListener("load",function() {
 </div>
 <div id='status'></div>
 <script>
+$("#status").click(function () { $(this).hide() });
 $("#main_gate").click(function() {
 	var CSRFtoken = $('input[name=csrfmiddlewaretoken]').val();
-	$.post( "/trigger_main_gate", { csrfmiddlewaretoken: CSRFtoken }, function (data) { $("#status").html(data);
-
+	$.post( "/trigger_main_gate", { csrfmiddlewaretoken: CSRFtoken }, function (data) { $("#status").html(data).css('display', 'flex').delay(1000).fadeOut(2000);
+});
+	$("#status").fadeOut(3000);
 });
 
-});
 $("#garage_gate").click(function() {
         var CSRFtoken = $('input[name=csrfmiddlewaretoken]').val();
-        $.post( "/trigger_garage_gate", { csrfmiddlewaretoken: CSRFtoken }, function (data) { $("#status").html(data);
+        $.post( "/trigger_garage_gate", { csrfmiddlewaretoken: CSRFtoken }, function (data) { $("#status").html(data).css('display', 'flex').delay(1000).fadeOut(2000);
 });
+	$("#status").fadeOut(3000);
 });
+
+
+$('#toggle').click(function() {
+
+	if($("#toggle").is(':checked')) {
+	    var CSRFtoken = $('input[name=csrfmiddlewaretoken]').val();
+	    $.post( "/turn_on_terrace_lights", { csrfmiddlewaretoken: CSRFtoken }, function (data) { $("#status").html(data).css('display', 'flex').delay(1000).fadeOut(2000);
+	});
+	}
+
+	else {
+	    var CSRFtoken = $('input[name=csrfmiddlewaretoken]').val();
+	    $.post( "/turn_off_terrace_lights", { csrfmiddlewaretoken: CSRFtoken }, function (data) { $("#status").html(data).css('display', 'flex').delay(1000).fadeOut(2000);
+	});
+	}
+
+});
+
+
 </script>
 </body></html>
