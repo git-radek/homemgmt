@@ -6,11 +6,12 @@ from bme280 import *
 import time
 import sys
 import asyncio
-import paho.mqtt.publish as publish
+from . import terrace
 
 #GPIO.setwarnings(False)
 MAIN_GATE=23
 GARAGE_GATE=24
+OUTTER_LIGHTS=16
 loop = asyncio.get_event_loop()
 
 def bgstuff(output,delay):
@@ -19,8 +20,9 @@ def bgstuff(output,delay):
    GPIO.output(output, 1)
 #   GPIO.cleanup()
 
-def terrace(state):
-   publish.single("cmnd/taras1/power", state, hostname="localhost")
+def outter_lights(output,state):
+   GPIO.output(output, state)
+
 
 
 def trigger_main_gate(request):
@@ -39,14 +41,14 @@ def trigger_garage_gate(request):
 
 def turn_on_terrace_lights(request):
    if request.user.is_authenticated:
-      loop.run_in_executor(None,terrace('ON'))
+      loop.run_in_executor(None,terrace(1))
       return HttpResponse('Terrace lights have been turned on')
    else:
       return HttpResponse('Not permited.')
 
 def turn_off_terrace_lights(request):
    if request.user.is_authenticated:
-      loop.run_in_executor(None,terrace('OFF'))
+      loop.run_in_executor(None,terrace(0))
       return HttpResponse('Terrace lights have been turned off')
    else:
       return HttpResponse('Not permited.')
