@@ -7,7 +7,7 @@ import RPi.GPIO as GPIO
 import paho.mqtt.publish as publish
 GPIO.setmode(GPIO.BCM)
 from homemgmt import terrace
-
+time.sleep(120)
 while True:
 
    current_time = datetime.datetime.now().timestamp()
@@ -21,9 +21,12 @@ while True:
    sunset=str(dict['results']['sunset']).replace('+00:00', 'Z')
    sunset=datetime.datetime.strptime(sunset, "%Y-%m-%dT%H:%M:%SZ").timestamp()
 
-   #print("Sunrise: "+str(sunrise))
+   print("Sunrise: "+str(sunrise))
    print("Sunset:  "+str(sunset))
-   if current_time >= sunset:
+   if (current_time >= sunset) and (current_time >= sunrise):
+      terrace(1)
+      print(1)
+   elif (current_time <= sunset) and (current_time <= sunrise):
       terrace(1)
       print(1)
    else:
